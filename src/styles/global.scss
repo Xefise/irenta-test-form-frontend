@@ -1,0 +1,112 @@
+@import "vars";
+
+html, html *{ // scrollbar
+  //firefox
+  scrollbar-width: thin;
+  scrollbar-color: $accent_color white;
+
+  &::-webkit-scrollbar{
+    width: 10px; // w/o !important doesn't work:(
+    z-index: 12!important
+  }
+  &::-webkit-scrollbar-track{
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: $accent_color;
+    border-radius: 6px;
+  }
+}
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  min-width: 100vw;
+  max-width: 100vw;
+}
+body{overflow-x: hidden}
+
+img, button{
+  transition-duration: 0.22s;
+}
+
+ul{
+  margin-left: 0;
+  padding-left: 0;
+}
+li{
+  list-style-type: none;
+}
+
+a, .a {
+  color: $accent_color;
+  text-decoration: none;
+  outline: 0;
+  display: block;
+
+  @include focus{}
+}
+a, .a, svg, circle, path{transition-duration: 0.22s;}
+
+.low_opacity{
+  opacity: 0.7;
+}
+
+button{
+  border-color: transparent;
+  background-color: transparent;
+  cursor: pointer;
+
+  @include focus{}
+}
+
+.btn{
+  border: 1px solid $accent_color;
+  border-radius: 7px;
+  background: $accent_color; color: #fff;
+  padding: 1em 1.25em;
+  text-align: center;
+  font-weight: 400; font-size: 1rem;
+  cursor: pointer;
+
+  @include hover{
+    filter: brightness(0.8);
+  }
+  @include active{
+    filter: brightness(0.85);
+  }
+  @include focus{}
+}
+
+//#region text colors
+.white_text_color{color: #fff;}
+
+a.white_text_color, button.white_text_color, .white_text_color a, .white_text_color button{
+  @include hover {color: #fffa}
+  @include active{color: #fff8}
+}
+.accent_text_color{color: $accent_color;}
+.black_text_color{color: $black_color;}
+.error_text_color{color: $error_color;}
+//#endregion
+
+.no_margin{margin: 0;}
+
+.pc_only{
+  @media (max-width: $pc_min_resolution) {display: none!important;}
+}
+.pc_tablet_only{
+  @media (max-width: $tablet_min_resolution) {display: none!important;}
+}
+.mobile_only{
+  @media (min-width: $pc_min_resolution + 1px) {display: none!important;}
+}
+.mobile_phone_only{
+  @media (min-width: $tablet_min_resolution + 1px) {display: none!important;}
+}
+
+.to_center_children{
+  display: flex; justify-content: center;
+  width: 100%;
+}

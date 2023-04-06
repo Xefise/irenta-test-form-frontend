@@ -1,0 +1,43 @@
+$accent_color: #5795FD;
+
+$dark_gray_color: #999999;
+$black_color: #222222;
+
+$error_color: #ff5c57;
+
+$tablet_min_resolution: 500px;
+$pc_min_resolution: 1024px;
+$pc_extra_resolution: 1920px;
+
+$container_padding: 80px;
+$max_container_width: 1200px;
+
+@mixin hover {
+  @media(hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+@mixin focus {
+  &:focus-visible {
+    outline: 3px auto $accent_color;
+    @content;
+  }
+}
+
+@mixin input_focus{
+  input:focus, textarea:focus{
+    border: 1px solid $accent_color;
+    outline: none;
+    @content
+  }
+}
+
+@mixin active{
+  &:active{
+    @media (pointer: fine) {
+      @content
+    }
+  }
+}
