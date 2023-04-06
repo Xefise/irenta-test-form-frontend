@@ -7,9 +7,11 @@ function App() {
 
   return (
     <AnimatePresence mode={"wait"}>
-      <Routes>
-        <Route path="/" element={<IndexPage/>}/>
-      </Routes>
+      <main className="page">
+        <Routes>
+          <Route path="/" element={<IndexPage/>}/>
+        </Routes>
+      </main>
     </AnimatePresence>
   )
 }

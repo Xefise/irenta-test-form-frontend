@@ -10,7 +10,10 @@ html{
   font-size: 15px;
   @media (max-width: $pc_min_resolution) {font-size: 14px;}
   @media (max-width: $tablet_min_resolution) {font-size: 13px;}
+  *{font-size: inherit}
 }
+
+h2,h3,h4,h5,h6{font-weight: 400}
 
 h1, .h1{
   font-weight: 600;

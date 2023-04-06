@@ -3,14 +3,14 @@
 html, html *{ // scrollbar
   //firefox
   scrollbar-width: thin;
-  scrollbar-color: $accent_color white;
+  scrollbar-color: $accent_color $light_gray_color;
 
   &::-webkit-scrollbar{
     width: 10px; // w/o !important doesn't work:(
     z-index: 12!important
   }
   &::-webkit-scrollbar-track{
-    background-color: transparent;
+    background-color: $light_gray_color;
   }
   &::-webkit-scrollbar-thumb{
     background-color: $accent_color;
@@ -67,16 +67,28 @@ button{
   background: $accent_color; color: #fff;
   padding: 1em 1.25em;
   text-align: center;
-  font-weight: 400; font-size: 1rem;
+  font-weight: 400;
   cursor: pointer;
 
   @include hover{
-    filter: brightness(0.8);
+    background-color: $accent_hover_color;
   }
   @include active{
-    filter: brightness(0.85);
+    filter: brightness(0.9);
   }
   @include focus{}
+}
+
+input, .input, textarea{
+  padding: 1.15em 1.33em;
+  border: 1px solid $light_gray_color;
+  border-radius: 7px;
+
+  ::-webkit-input-placeholder, ::-moz-placeholder{color: $light_gray_color}
+
+  @include hover{border-color: $black_color;}
+  @include active{border-color: $black_color;}
+  @include input_focus{border-color: $black_color;}
 }
 
 //#region text colors
@@ -89,6 +101,9 @@ a.white_text_color, button.white_text_color, .white_text_color a, .white_text_co
 .accent_text_color{color: $accent_color;}
 .black_text_color{color: $black_color;}
 .error_text_color{color: $error_color;}
+.gray_text_color{color: $gray_color;}
+.light_gray_text_color{color: $light_gray_color;}
+.darl_gray_text_color{color: $dark_gray_color;}
 //#endregion
 
 .no_margin{margin: 0;}
