@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import styles from './OnwershipForm.module.scss';
-import gstyles from './OwnershipGeneral.module.scss'
+import gstyles from './OwnershipGeneral.module.scss';
 import OwnershipMainForm from "./OwnershipMainForm/OwnershipMainForm";
 import {FormProvider, SubmitHandler, useFieldArray, useForm} from "react-hook-form";
 import OwnershipFormModel from "../../models/OwnershipFormModel";
 import LabeledInput from "../LabeledInput/LabeledInput";
+import {maxLenghtEr, minLenghtEr} from "../../tools/hookFormErrors";
+import * as yup from 'yup';
 
 export interface OnwershipFormProps {
 }
@@ -45,16 +47,21 @@ function OnwershipForm({}: OnwershipFormProps) {
         <OwnershipMainForm type={activityTypeText} stepComplete={() => {setStep(3); appendBankForm();}}/>
         {fields.map((field, i) => (
           <div className={gstyles.form_section}>
-            <LabeledInput key={`bank_${i}_a`} label={"БИК*"} placeholder={"ххххххххх"}
-              propRegister={register(`ownershipBankDetailsList.${i}.bic`, { required: true, minLength: 9, maxLength: 9})}/>
+            <LabeledInput key={`bank_${i}_a`} label={"БИК*"} placeholder={"ххххххххх"} type="number"
+              propRegister={register(`ownershipBankDetailsList.${i}.bic`,
+                { required: true, minLength: minLenghtEr(9), maxLength: maxLenghtEr(9)})}/>
+
             <LabeledInput key={`bank_${i}_b`} label={"Название филиала банка*"} placeholder={"ООО «Московская промышленная компания»"}
-              propRegister={register(`ownershipBankDetailsList.${i}.bankBranchName`, {required: true, minLength: 2})}/>
+              propRegister={register(`ownershipBankDetailsList.${i}.bankBranchName`,
+                {required: true, minLength: minLenghtEr(9)})}/>
+
             <LabeledInput key={`bank_${i}_c`} label={"Рассчетный счет*"} placeholder={"хххххххххххххххххххх"}
               propRegister={register(`ownershipBankDetailsList.${i}.checkingAccount`,
-                { required: true, minLength: 20, maxLength: 20})}/>
+                { required: true, minLength: minLenghtEr(20), maxLength: maxLenghtEr(20)})}/>
+
             <LabeledInput key={`bank_${i}_d`} label={"Корреспондентский счет*"} placeholder={"хххххххххххххххххххх"}
               propRegister={register(`ownershipBankDetailsList.${i}.correspondentAccount`,
-                { required: true, minLength: 20, maxLength: 20})}/>
+                { required: true, minLength: minLenghtEr(20), maxLength: maxLenghtEr(20)})}/>
           </div>
         ))}
         { step==3 && <>
