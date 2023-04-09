@@ -53,36 +53,33 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
     </h2>
     <div className={gstyles.form_section}>
       <LabeledInput label={"ИНН*"} placeholder={"xxxxxxxxxx"} type="number" error={errors.inn?.message}
-        propRegister={register(`inn`, { required: true, minLength: 10, maxLength: 12, onChange: (e) => setInn(e.target.value)})}/>
+        propRegister={register(`inn`, {onChange: (e) => setInn(e.target.value)})}/>
 
       {type == "ООО" && <>
         <LabeledInput label={"Наименование полное*"} placeholder={"ООО «Московская промышленная компания»"}
-          propRegister={register(`name`,
-            { minLength: minLenghtEr(5), maxLength: minLenghtEr(80)})} error={errors.name?.message}/>
+          propRegister={register(`name`)} error={errors.name?.message}/>
 
         <LabeledInput label={"Наименование сокращенное*"} placeholder={"ООО «МПК»"}
-          propRegister={register(`shortName`,
-            { minLength: minLenghtEr(2), maxLength: minLenghtEr(30)})} error={errors.shortName?.message}/>
+          propRegister={register(`shortName`)} error={errors.shortName?.message}/>
       </>}
 
-      <LabeledInput label={"Скан ИНН*"} placeholder={"Выберите или перетащите файл"}
-        propRegister={register(`scanInn`, { required: true, minLength: minLenghtEr(5)})} error={errors.scanInn?.message}/>
+      <LabeledInput label={"Скан ИНН*"} placeholder={"Выберите или перетащите файл"} type="file"
+        propRegister={register(`scanInn`)} error={errors.scanInn?.message}/>
 
       <LabeledInput label={"ОГРНИП*"} placeholder={"ххххххххххххххх"} type="number"
-        propRegister={register(`ogrnip`,
-          { required: true, minLength: minLenghtEr(15), maxLength: minLenghtEr(15)})} error={errors.ogrnip?.message}/>
+        propRegister={register(`ogrnip`)} error={errors.ogrnip?.message}/>
 
-      <LabeledInput label={"Скан ОГРНИП*"} placeholder={"Выберите или перетащите файл"}
-        propRegister={register(`scanOgrnip`, { required: true, minLength: minLenghtEr(5)})} error={errors.scanOgrnip?.message}/>
+      <LabeledInput label={"Скан ОГРНИП*"} placeholder={"Выберите или перетащите файл"} type="file"
+        propRegister={register(`scanOgrnip`)} error={errors.scanOgrnip?.message}/>
 
       <LabeledInput label={"Дата регистрации*"} placeholder={"дд.мм.гггг"} type="date"
-        propRegister={register(`registrationDate`, { required: true})} error={errors.registrationDate?.message}/>
+        propRegister={register(`registrationDate`)} error={errors.registrationDate?.message}/>
 
-      <LabeledInput label={"Скан выписки из ЕГРИП (не старше 3 месяцев)*"} placeholder={"Выберите или перетащите файл"}
-        propRegister={register(`scanEgrip`, { required: true})} error={errors.scanEgrip?.message}/>
+      <LabeledInput label={"Скан выписки из ЕГРИП (не старше 3 месяцев)*"} placeholder={"Выберите или перетащите файл"} type="file"
+        propRegister={register(`scanEgrip`)} error={errors.scanEgrip?.message}/>
 
-      <LabeledInput label={"Скан договора аренды помещения (офиса)"} placeholder={"Выберите или перетащите файл"}
-        propRegister={register(`scanLeaseAgreement`, { required: true})} error={errors.scanLeaseAgreement?.message}/>
+      <LabeledInput label={"Скан договора аренды помещения (офиса)"} placeholder={"Выберите или перетащите файл"} type="file"
+        propRegister={register(`scanLeaseAgreement`)} error={errors.scanLeaseAgreement?.message}/>
       <div>
         <input id="no_agreement_check" type="checkbox" {...register('noAgreement')}/>
         <label htmlFor="no_agreement_check" className="gray_text_color">Нет договора</label>
