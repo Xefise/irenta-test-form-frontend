@@ -3,8 +3,7 @@ import styles from './OwnershipMainForm.module.scss';
 import gstyles from '../OwnershipGeneral.module.scss'
 import {useFormContext} from "react-hook-form";
 import LabeledInput from "../../LabeledInput/LabeledInput";
-import {minLenghtEr} from "../../../tools/hookFormErrors";
-import axios from "axios";
+//import axios from "axios";
 
 export interface OwnershipMainFormProps {
   className?: string,
@@ -14,7 +13,7 @@ export interface OwnershipMainFormProps {
 
 function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFormProps) {
   const [stepCompleted, setStepCompleted] = useState<boolean>(false);
-  const { register, formState: { errors } } = useFormContext();
+  const { register, setValue, formState: { errors } } = useFormContext();
 
   const [inn, setInn] = useState<number>(0);
 
@@ -23,19 +22,30 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
       //let innRes = await axios.post("https://api-fns.ru/api/egr", {req: inn});
       switch (inn.toString()) {
         case "1000000000":
-          console.log("inn is 1000000000");
+          setValue('ogrnip', 100000000110000);
+          setValue('registrationDate', "2017-07-21");
           break;
         case "9999999999":
-          console.log("inn is 9999999999");
+          setValue('ogrnip', 100000000999999);
+          setValue('registrationDate', "2016-03-02");
           break;
         case "999999999999":
-          console.log("inn is 999999999999");
+          setValue('ogrnip', 990000000000999);
+          setValue('name', "ООО МосСофт");
+          setValue('shortName', "ООО МС");
+          setValue('registrationDate', "2017-11-24");
           break;
         case "100000000000":
-          console.log("inn is 100000000000");
+          setValue('ogrnip', 100000000000400);
+          setValue('name', "ООО ЯКомпания");
+          setValue('shortName', "ООО ЯК");
+          setValue('registrationDate', "2015-10-04");
           break;
         case "111111111111":
-          console.log("inn is 111111111111");
+          setValue('ogrnip', 101111110000400);
+          setValue('name', "ООО НеГугл");
+          setValue('shortName', "ООО НГ");
+          setValue('registrationDate', "2011-04-24");
           break;
         default:
           console.log("inn is not a specified number");
@@ -80,7 +90,7 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
 
       <LabeledInput label={"Скан договора аренды помещения (офиса)"} placeholder={"Выберите или перетащите файл"} type="file"
         propRegister={register(`scanLeaseAgreement`)} error={errors.scanLeaseAgreement?.message}/>
-      <div>
+      <div className={gstyles.checkbox_container}>
         <input id="no_agreement_check" type="checkbox" {...register('noAgreement')}/>
         <label htmlFor="no_agreement_check" className="gray_text_color">Нет договора</label>
       </div>

@@ -6,7 +6,6 @@ import {FormProvider, SubmitHandler, useFieldArray, useForm} from "react-hook-fo
 import OwnershipFormModel from "../../models/OwnershipFormModel";
 import LabeledInput from "../LabeledInput/LabeledInput";
 import { yupResolver } from '@hookform/resolvers/yup';
-import {mixed, number, object, ObjectSchema, string} from "yup";
 import {ownershipFormSchema} from "./OwnershipFormSchema";
 
 export interface OnwershipFormProps {
@@ -20,11 +19,8 @@ function OnwershipForm({}: OnwershipFormProps) {
 
   const hookForm = useForm<OwnershipFormModel>({resolver: yupResolver(ownershipFormSchema)});
   const {
-    control,
-    register,
-    formState : {
-      errors
-    },
+    control, register, setValue,
+    formState : {errors},
     handleSubmit,
   } = hookForm;
   const { fields, append } = useFieldArray({
@@ -36,14 +32,15 @@ function OnwershipForm({}: OnwershipFormProps) {
     alert(JSON.stringify(data)); console.log(data);
   }
 
-  function appendBankForm(){append({correspondentAccount: "0", bic: 0, bankBranchName: "", checkingAccount: "0"});}
+  function appendBankForm(){ // @ts-ignore
+    append({correspondentAccount: "", bic: null, bankBranchName: "", checkingAccount: ""});}
 
   return <>
     <FormProvider {...hookForm} >
       <form onSubmit={handleSubmit(onSumbit)} className={styles.ownership_form}>
         <div>
           <LabeledInput label={"Вид деятельности*"}>
-            <input {...register('activityType', {required: true, onChange: (e) => setActivityTypeText(e.target.value)})}/>
+            <input {...register('activityType', {onChange: (e) => setActivityTypeText(e.target.value)})}/>
           </LabeledInput>
         </div>
         <OwnershipMainForm type={activityTypeText} stepComplete={() => {setStep(3); appendBankForm();}}/>

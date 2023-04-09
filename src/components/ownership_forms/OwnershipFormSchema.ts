@@ -16,7 +16,10 @@ export const photoValidSchema = yup.mixed()
   });
 
 export const ownershipBankDetailsSchema = yup.object().shape({
-  bic: yup.number().required(requiredErMes).min(9, minLenghtEr(9).message).max(9, maxLenghtEr(9)).typeError(requiredErMes),
+  bic: yup.number().required(requiredErMes).test(
+    'lenght', 'БИК должен содержать 9 цифр',
+    (val) => !!(val && (val.toString().length == 9 || val.toString().length == 9))
+  ).typeError(requiredErMes),
   bankBranchName: yup.string().required(requiredErMes),
   checkingAccount: yup.string().required(requiredErMes).min(20, minLenghtEr(20).message).max(20, maxLenghtEr(20)).typeError(requiredErMes),
   correspondentAccount: yup.string().required(requiredErMes).min(20, minLenghtEr(20).message).max(20, maxLenghtEr(20)).typeError(requiredErMes),
