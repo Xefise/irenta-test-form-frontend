@@ -7,6 +7,8 @@ import OwnershipFormModel from "../../models/OwnershipFormModel";
 import LabeledInput from "../LabeledInput/LabeledInput";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {ownershipFormSchema} from "./OwnershipFormSchema";
+import axios from "axios";
+
 
 export interface OnwershipFormProps {
 }
@@ -28,8 +30,31 @@ function OnwershipForm({}: OnwershipFormProps) {
     name: 'ownershipBankDetailsList'
   });
 
-  const onSumbit: SubmitHandler<OwnershipFormModel> = (data : OwnershipFormModel) => {
-    alert(JSON.stringify(data)); console.log(data);
+  const uploadFile = async (file : FileList): Promise<number> => {
+    const api = import.meta.env.VITE_API_URL;
+    const formData = new FormData();
+    formData.append('uploadedFile', file[0]);
+    const response = await axios.post(`${api}/api/ownership-form/upload-img`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data as number;
+  };
+
+  const onSumbit: SubmitHandler<OwnershipFormModel> = async (data : OwnershipFormModel) => {
+    let ownershipFormModel : any = data;
+    // @ts-ignore
+    const api = import.meta.env.VITE_API_URL;
+    ownershipFormModel.scanInnId = await uploadFile(data.scanInn);
+    ownershipFormModel.scanOgrnipId = await uploadFile(data.scanOgrnip);
+    ownershipFormModel.scanEgripId = await uploadFile(data.scanEgrip);
+    ownershipFormModel.scanLeaseAgreementId = await uploadFile(data.scanLeaseAgreement);
+
+    delete ownershipFormModel.scanInn; delete ownershipFormModel.scanOgrnip; delete ownershipFormModel.scanEgrip; delete ownershipFormModel.scanLeaseAgreement;
+
+    alert(JSON.stringify(ownershipFormModel)); console.log(data);
+    console.log(ownershipFormModel);
+
+    axios.post(`${api}/api/ownership-form`, JSON.stringify(ownershipFormModel), {headers: {"Content-Type": "application/json"}})
   }
 
   function appendBankForm(){ // @ts-ignore

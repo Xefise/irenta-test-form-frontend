@@ -12,6 +12,8 @@ export interface OwnershipMainFormProps {
 }
 
 function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFormProps) {
+  const accept= ".jpg, .jpeg, .png, .pdf"
+
   const [stepCompleted, setStepCompleted] = useState<boolean>(false);
   const { register, setValue, formState: { errors } } = useFormContext();
 
@@ -73,22 +75,24 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
           propRegister={register(`shortName`)} error={errors.shortName?.message}/>
       </>}
 
-      <LabeledInput label={"Скан ИНН*"} placeholder={"Выберите или перетащите файл"} type="file"
+      <LabeledInput label={"Скан ИНН*"} placeholder={"Выберите или перетащите файл"} type="file" accept={accept}
         propRegister={register(`scanInn`)} error={errors.scanInn?.message}/>
 
       <LabeledInput label={"ОГРНИП*"} placeholder={"ххххххххххххххх"} type="number"
         propRegister={register(`ogrnip`)} error={errors.ogrnip?.message}/>
 
-      <LabeledInput label={"Скан ОГРНИП*"} placeholder={"Выберите или перетащите файл"} type="file"
+      <LabeledInput label={"Скан ОГРНИП*"} placeholder={"Выберите или перетащите файл"} type="file" accept={accept}
         propRegister={register(`scanOgrnip`)} error={errors.scanOgrnip?.message}/>
 
       <LabeledInput label={"Дата регистрации*"} placeholder={"дд.мм.гггг"} type="date"
         propRegister={register(`registrationDate`)} error={errors.registrationDate?.message}/>
 
-      <LabeledInput label={"Скан выписки из ЕГРИП (не старше 3 месяцев)*"} placeholder={"Выберите или перетащите файл"} type="file"
+      <LabeledInput label={"Скан выписки из ЕГРИП (не старше 3 месяцев)*"} placeholder={"Выберите или перетащите файл"}
+        type="file" accept={accept}
         propRegister={register(`scanEgrip`)} error={errors.scanEgrip?.message}/>
 
-      <LabeledInput label={"Скан договора аренды помещения (офиса)"} placeholder={"Выберите или перетащите файл"} type="file"
+      <LabeledInput label={"Скан договора аренды помещения (офиса)"} placeholder={"Выберите или перетащите файл"}
+        type="file" accept={accept}
         propRegister={register(`scanLeaseAgreement`)} error={errors.scanLeaseAgreement?.message}/>
       <div className={gstyles.checkbox_container}>
         <input id="no_agreement_check" type="checkbox" {...register('noAgreement')}/>
