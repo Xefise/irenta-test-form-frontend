@@ -1,0 +1,161 @@
+@import "vars";
+
+
+input:-webkit-autofill{transition: background-color 600000s 0s, color 600000s 0s;}
+
+
+.dropdown{
+  width: 15em;
+
+  .Dropdown-arrow{
+    top: 1.6em;
+    border-width: 6px 6px 0;
+  }
+  &.is-open{
+    .Dropdown-arrow{border-color: transparent transparent $accent-color; border-width: 0 6px 6px;}
+  }
+
+  .Dropdown-control{
+    border-radius: 7px;
+    padding: 1.15em 1.33em;
+    border: 1px solid $light_gray_color;
+  }
+
+  .Dropdown-menu{
+    top: calc(100% + 8px);
+  }
+
+  &.bottom_border{
+    .Dropdown-control{
+      padding: 1.15em 1.33em;
+      border: none;
+      border-bottom: 1px solid #353535; border-radius: 0;
+      background: transparent;
+    }
+  }
+  &.is-open.bottom_border{.Dropdown-control{border-color: $accent-color}}
+
+  .Dropdown-option{
+
+    border: 1px solid $light_gray_color;
+    border-left-color: $accent-color;
+    border-right-color: $accent-color;
+    background-color: #fff;
+    &.is-selected{
+      color: $accent-color;
+      filter: grayscale(0.4);
+      @include hover{filter: grayscale(0.2)}
+    }
+    &:first-child{
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      border-top-color: $accent-color;
+    }
+    &:last-child{
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      border-bottom-color: $accent-color;
+    }
+  }
+
+  .Dropdown-menu{
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  @include hover{opacity: 1}
+  @include active{opacity: 1}
+  @include focus{opacity: 1}
+  &.is-open{opacity: 1}
+}
+
+
+input[type="checkbox"]:checked,
+input[type="checkbox"]:not(:checked),
+input[type="radio"]:checked,
+input[type="radio"]:not(:checked)
+{
+  position: absolute;
+  left: -9999px;
+}
+
+input[type="checkbox"]:checked + label,
+input[type="checkbox"]:not(:checked) + label,
+input[type="radio"]:checked + label,
+input[type="radio"]:not(:checked) + label {
+  display: inline-block;
+  position: relative;
+  padding-left: 31px;
+  line-height: 20px;
+  cursor: pointer;
+}
+input[type="checkbox"]:checked + label:before,
+input[type="checkbox"]:not(:checked) + label:before,
+input[type="radio"]:checked + label:before,
+input[type="radio"]:not(:checked) + label:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #dddddd;
+  background-color: #ffffff;
+}
+
+input[type="checkbox"]:checked + label:before,
+input[type="checkbox"]:not(:checked) + label:before {
+  border-radius: 5px; border: 2px solid #35353550;
+}
+
+input[type="radio"]:checked + label:before,
+input[type="radio"]:not(:checked) + label:before {
+  border-radius: 100%;
+}
+input[type="checkbox"]:checked + label:after,
+input[type="checkbox"]:not(:checked) + label:after,
+input[type="radio"]:checked + label:after,
+input[type="radio"]:not(:checked) + label:after {
+  content: "";
+  position: absolute;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+input[type="checkbox"]:checked + label:after,
+input[type="checkbox"]:not(:checked) + label:after {
+  left: 5px;
+  top: 5px;
+  width: 9px;
+  height: 5px;
+  border-radius: 1px;
+  border-left: 2.5px solid #fff;
+  border-bottom: 2.5px solid #fff;
+  transform: rotate(-45deg);
+}
+
+input[type="radio"]:checked + label:after,
+input[type="radio"]:not(:checked) + label:after {
+  left: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: $accent-color;
+}
+input[type="checkbox"]:checked + label:before{
+  background-color: $accent-color;
+  border-color: transparent;
+}
+input[type="checkbox"]:not(:checked) + label:after,
+input[type="radio"]:not(:checked) + label:after {
+  opacity: 0;
+}
+
+input[type="checkbox"]:checked + label:after,
+input[type="radio"]:checked + label:after {
+  opacity: 1;
+}

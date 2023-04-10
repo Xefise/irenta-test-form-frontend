@@ -88,11 +88,11 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
         propRegister={register(`registrationDate`)} error={errors.registrationDate?.message}/>
 
       <LabeledInput label={"Скан выписки из ЕГРИП (не старше 3 месяцев)*"} placeholder={"Выберите или перетащите файл"}
-        type="file" accept={accept}
+        type="file" accept={accept} pattern="[0-9]*"
         propRegister={register(`scanEgrip`)} error={errors.scanEgrip?.message}/>
 
       <LabeledInput label={"Скан договора аренды помещения (офиса)"} placeholder={"Выберите или перетащите файл"}
-        type="file" accept={accept}
+        type="file" accept={accept} pattern="[0-9]*"
         propRegister={register(`scanLeaseAgreement`)} error={errors.scanLeaseAgreement?.message}/>
       <div className={gstyles.checkbox_container}>
         <input id="no_agreement_check" type="checkbox" {...register('noAgreement')}/>

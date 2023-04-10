@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import styles from './OnwershipForm.module.scss';
 import gstyles from './OwnershipGeneral.module.scss';
 import OwnershipMainForm from "./OwnershipMainForm/OwnershipMainForm";
-import {FormProvider, SubmitHandler, useFieldArray, useForm} from "react-hook-form";
+import {Controller, FormProvider, SubmitHandler, useFieldArray, useForm} from "react-hook-form";
 import OwnershipFormModel from "../../models/OwnershipFormModel";
 import LabeledInput from "../LabeledInput/LabeledInput";
 import { yupResolver } from '@hookform/resolvers/yup';
 import {ownershipFormSchema} from "./OwnershipFormSchema";
 import axios from "axios";
-
+import Dropdown from 'react-dropdown';
 
 export interface OnwershipFormProps {
 }
@@ -64,9 +64,15 @@ function OnwershipForm({}: OnwershipFormProps) {
     <FormProvider {...hookForm} >
       <form onSubmit={handleSubmit(onSumbit)} className={styles.ownership_form}>
         <div>
-          <LabeledInput label={"Вид деятельности*"}>
-            <input {...register('activityType', {onChange: (e) => setActivityTypeText(e.target.value)})}/>
-          </LabeledInput>
+          <Controller control={control} name="activityType"
+            render={({
+              field: { onChange, value },
+            }) => (
+              <LabeledInput label={"Вид деятельности*"}>
+                <Dropdown className="dropdown" options={['ООО', 'ИП']} onChange={(e) => {setActivityTypeText(e.value); onChange(e.value)}} value={value}/>
+              </LabeledInput>
+            )}
+          />
         </div>
         <OwnershipMainForm type={activityTypeText} stepComplete={() => {setStep(3); appendBankForm();}}/>
         {fields.map((field, i) => (
