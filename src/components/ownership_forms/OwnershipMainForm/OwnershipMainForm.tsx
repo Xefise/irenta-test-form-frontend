@@ -3,6 +3,7 @@ import styles from './OwnershipMainForm.module.scss';
 import gstyles from '../OwnershipGeneral.module.scss'
 import {useFormContext} from "react-hook-form";
 import LabeledInput from "../../LabeledInput/LabeledInput";
+import axios from "axios";
 //import axios from "axios";
 
 export interface OwnershipMainFormProps {
@@ -22,38 +23,26 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
   useEffect(() => {
     async function setDataByInn() {
       //let innRes = await axios.post("https://api-fns.ru/api/egr", {req: inn});
-      switch (inn.toString()) {
-        case "1000000000":
-          setValue('ogrnip', 100000000110000);
-          setValue('registrationDate', "2017-07-21");
-          break;
-        case "9999999999":
-          setValue('ogrnip', 100000000999999);
-          setValue('registrationDate', "2016-03-02");
-          break;
-        case "999999999999":
-          setValue('ogrnip', 990000000000999);
-          setValue('name', "ООО МосСофт");
-          setValue('shortName', "ООО МС");
-          setValue('registrationDate', "2017-11-24");
-          break;
-        case "100000000000":
-          setValue('ogrnip', 100000000000400);
-          setValue('name', "ООО ЯКомпания");
-          setValue('shortName', "ООО ЯК");
-          setValue('registrationDate', "2015-10-04");
-          break;
-        case "111111111111":
-          setValue('ogrnip', 101111110000400);
-          setValue('name', "ООО НеГугл");
-          setValue('shortName', "ООО НГ");
-          setValue('registrationDate', "2011-04-24");
-          break;
-        default:
-          console.log("inn is not a specified number");
+      let orgsRes = await axios.post("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party",
+        {query: inn},
+        {headers: {'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': `Token ${import.meta.env.VITE_DDATA_API_TOKEN}`}}
+      );
+      console.log(orgsRes);
+      let orgData;
+      if(orgsRes.data?.suggestions?.length > 0 && orgsRes.data.suggestions[0].data)
+        orgData = orgsRes.data.suggestions[0].data;
+      else return;
+      if(inn.toString().length == 12){
+        setValue('name', orgData.name.full_with_opf);
+        setValue('shortName', orgData.name.short);
       }
+      setValue('ogrnip', orgData.ogrn);
+      setValue('registrationDate', new Date(orgData.state.registration_date));
     }
-    if(inn.toString().length >= 10) setDataByInn();
+    //if(inn.toString().length == 10 || inn.toString().length == 12)
+      setDataByInn();
   }, [inn])
 
 
