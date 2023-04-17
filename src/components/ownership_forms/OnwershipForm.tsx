@@ -91,19 +91,37 @@ function OnwershipForm({}: OnwershipFormProps) {
               propRegister={register(`ownershipBankDetailsList.${i}.bankBranchName`)}
               error={errors.ownershipBankDetailsList?.[i]?.bankBranchName?.message}/>
 
-            <LabeledInput key={`bank_${i}_c`} label={"Рассчетный счет*"} placeholder={"хххххххххххххххххххх"}
-              propRegister={register(`ownershipBankDetailsList.${i}.checkingAccount`)}
-              error={errors.ownershipBankDetailsList?.[i]?.checkingAccount?.message}/>
+            <Controller control={control} name={`ownershipBankDetailsList.${i}.checkingAccount`}
+              render={({
+                field: { value, onChange },
+              }) => (
+                <LabeledInput key={`bank_${i}_c`} label={"Рассчетный счет*"}
+                  error={errors.ownershipBankDetailsList?.[i]?.checkingAccount?.message}>
+                  <input placeholder={"хххххххххххххххххххх"} value={value} onChange={(e) => {
+                    let val = e.target.value; val = val.replace(/[^0-9]/g, ''); onChange(val);}}
+                  />
+                </LabeledInput>
+              )}
+            />
 
-            <LabeledInput key={`bank_${i}_d`} label={"Корреспондентский счет*"} placeholder={"хххххххххххххххххххх"}
-              propRegister={register(`ownershipBankDetailsList.${i}.correspondentAccount`)}
-              error={errors.ownershipBankDetailsList?.[i]?.correspondentAccount?.message}/>
+            <Controller control={control} name={`ownershipBankDetailsList.${i}.correspondentAccount`}
+              render={({
+                field: { value, onChange },
+              }) => (
+                <LabeledInput key={`bank_${i}_d`} label={"Корреспондентский счет*"}
+                  error={errors.ownershipBankDetailsList?.[i]?.correspondentAccount?.message}>
+                  <input placeholder={"хххххххххххххххххххх"} value={value} onChange={(e) => {
+                    let val = e.target.value; val = val.replace(/[^0-9]/g, ''); onChange(val);}}
+                  />
+                </LabeledInput>
+              )}
+            />
           </div>
         ))}
         { step==3 && <>
           <button className="accent_text_color" type={"button"} style={{display: "block", margin: "1rem 0"}}
                 onClick={() => appendBankForm()}>+ Добавить еще один банк</button>
-          <button className="btn" style={{display: "block", margin: "1rem 0"}}>Send</button>
+          <button className="btn" style={{display: "block", margin: "1rem 0"}}>Отправить!</button>
         </>}
       </form>
     </FormProvider>

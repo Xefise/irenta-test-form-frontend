@@ -25,7 +25,7 @@ function LabeledInput({label, placeholder, type = "", className="", children, pr
         {propRegister && <input type={type} accept={accept} placeholder={placeholder} {...propRegister}/>}
       </>}
       {children && <>{children}</>}
-      <p className="error_text_color">{propRegister && error && error}</p>
+      <p className="error_text_color">{error && error.toString()}</p>
     </div>
   </>
 }
