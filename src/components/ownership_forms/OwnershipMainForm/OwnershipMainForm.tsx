@@ -35,10 +35,14 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
         orgData = orgsRes.data.suggestions[0].data;
       else return;
 
+      let regDate = new Date(orgData.state.registration_date);
+
       setValue('name', orgData.name.full_with_opf);
       setValue('shortName', orgData.name.short);
       setValue('ogrnip', orgData.ogrn);
-      setValue('registrationDate', new Date(orgData.state.registration_date));
+      setValue('registrationDate', `${regDate.toISOString().substring(0, 10)}`);
+
+      console.log(`${regDate.toISOString().substring(0, 10)}`)
     }
       if(inn.toString().length == 10 || inn.toString().length == 12) setDataByInn();
   }, [inn])
