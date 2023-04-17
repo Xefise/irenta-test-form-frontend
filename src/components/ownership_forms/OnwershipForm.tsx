@@ -42,19 +42,25 @@ function OnwershipForm({}: OnwershipFormProps) {
 
   const onSumbit: SubmitHandler<OwnershipFormModel> = async (data : OwnershipFormModel) => {
     let ownershipFormModel : any = data;
-    // @ts-ignore
     const api = import.meta.env.VITE_API_URL;
     ownershipFormModel.scanInnId = await uploadFile(data.scanInn);
-    ownershipFormModel.scanOgrnipId = await uploadFile(data.scanOgrnip);
+    if(data.activityType == "ООО")
+      ownershipFormModel.scanOgrnId = await uploadFile(data.scanOgrn!);
+    else
+      ownershipFormModel.scanOgrnipId = await uploadFile(data.scanOgrnip!);
     ownershipFormModel.scanEgripId = await uploadFile(data.scanEgrip);
-    ownershipFormModel.scanLeaseAgreementId = await uploadFile(data.scanLeaseAgreement);
+    if(data?.scanLeaseAgreement && !data.noAgreement)
+      ownershipFormModel.scanLeaseAgreementId = await uploadFile(data.scanLeaseAgreement);
 
-    delete ownershipFormModel.scanInn; delete ownershipFormModel.scanOgrnip; delete ownershipFormModel.scanEgrip; delete ownershipFormModel.scanLeaseAgreement;
+    delete ownershipFormModel.noAgreement; delete ownershipFormModel.scanInn; delete ownershipFormModel.scanOrgn; delete ownershipFormModel.scanOgrnip; delete ownershipFormModel.scanEgrip; delete ownershipFormModel.scanLeaseAgreement;
 
     alert(JSON.stringify(ownershipFormModel)); console.log(data);
     console.log(ownershipFormModel);
 
-    axios.post(`${api}/api/ownership-form`, JSON.stringify(ownershipFormModel), {headers: {"Content-Type": "application/json"}})
+    if(data.activityType == "ООО")
+      axios.post(`${api}/api/ownership-form/ooo`, JSON.stringify(ownershipFormModel), {headers: {"Content-Type": "application/json"}});
+    else
+      axios.post(`${api}/api/ownership-form/ip`, JSON.stringify(ownershipFormModel), {headers: {"Content-Type": "application/json"}});
   }
 
   function appendBankForm(){ // @ts-ignore

@@ -23,11 +23,8 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
   useEffect(() => {
     async function setDataByInn() {
       //let innRes = await axios.post("https://api-fns.ru/api/egr", {req: inn});
-      let orgsRes = await axios.post("https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party",
-        {query: inn},
-        {headers: {'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Token ${import.meta.env.VITE_DDATA_API_TOKEN}`}}
+      let orgsRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/ownership-form/org-data-by-inn/${inn}`,
+        {headers: {'Accept': 'application/json',}}
       );
       console.log(orgsRes);
       let orgData;
@@ -37,14 +34,15 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
 
       let regDate = new Date(orgData.state.registration_date);
 
-      setValue('name', orgData.name.full_with_opf);
-      setValue('shortName', orgData.name.short);
-      setValue('ogrnip', orgData.ogrn);
+      if(type == "ООО"){
+        setValue('name', orgData.name.full_with_opf);
+        setValue('shortName', orgData.name.short);
+        setValue('ogrn', orgData.ogrn);
+      }
       setValue('registrationDate', `${regDate.toISOString().substring(0, 10)}`);
-
-      console.log(`${regDate.toISOString().substring(0, 10)}`)
     }
-      if(inn.toString().length == 10 || inn.toString().length == 12) setDataByInn();
+
+    if(inn.toString().length == 10 || inn.toString().length == 12) setDataByInn();
   }, [inn])
 
 
@@ -69,11 +67,21 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
       <LabeledInput label={"Скан ИНН*"} placeholder={"Выберите или перетащите файл"} type="file" accept={accept}
         propRegister={register(`scanInn`)} error={errors.scanInn?.message}/>
 
-      <LabeledInput label={"ОГРНИП*"} placeholder={"ххххххххххххххх"} type="number"
-        propRegister={register(`ogrnip`)} error={errors.ogrnip?.message}/>
+      { type == "ООО"
+        ? <>
+          <LabeledInput label={"ОГРН*"} placeholder={"ххххххххххххххх"} type="number"
+          propRegister={register(`ogrn`)} error={errors.ogrn?.message}/>
+          <LabeledInput label={"Скан ОГРН*"} placeholder={"Выберите или перетащите файл"} type="file" accept={accept}
+          propRegister={register(`scanOgrn`)} error={errors.scanOgrn?.message}/>
+        </>
+        : <>
+          <LabeledInput label={"ОГРНИП*"} placeholder={"ххххххххххххххх"} type="number"
+          propRegister={register(`ogrnip`)} error={errors.ogrnip?.message}/>
+          <LabeledInput label={"Скан ОГРНИП*"} placeholder={"Выберите или перетащите файл"} type="file" accept={accept}
+          propRegister={register(`scanOgrnip`)} error={errors.scanOgrnip?.message}/>
+        </>
+      }
 
-      <LabeledInput label={"Скан ОГРНИП*"} placeholder={"Выберите или перетащите файл"} type="file" accept={accept}
-        propRegister={register(`scanOgrnip`)} error={errors.scanOgrnip?.message}/>
 
       <LabeledInput label={"Дата регистрации*"} placeholder={"дд.мм.гггг"} type="date"
         propRegister={register(`registrationDate`)} error={errors.registrationDate?.message}/>
