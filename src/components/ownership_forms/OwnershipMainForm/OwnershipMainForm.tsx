@@ -41,8 +41,7 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
       setValue('ogrnip', orgData.ogrn);
       setValue('registrationDate', new Date(orgData.state.registration_date));
     }
-    //if(inn.toString().length == 10 || inn.toString().length == 12)
-      setDataByInn();
+      if(inn.toString().length == 10 || inn.toString().length == 12) setDataByInn();
   }, [inn])
 
 
@@ -77,11 +76,11 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
         propRegister={register(`registrationDate`)} error={errors.registrationDate?.message}/>
 
       <LabeledInput label={"Скан выписки из ЕГРИП (не старше 3 месяцев)*"} placeholder={"Выберите или перетащите файл"}
-        type="file" accept={accept} pattern="[0-9]*"
+        type="file" accept={accept}
         propRegister={register(`scanEgrip`)} error={errors.scanEgrip?.message}/>
 
       <LabeledInput label={"Скан договора аренды помещения (офиса)"} placeholder={"Выберите или перетащите файл"}
-        type="file" accept={accept} pattern="[0-9]*"
+        type="file" accept={accept}
         propRegister={register(`scanLeaseAgreement`)} error={errors.scanLeaseAgreement?.message}/>
       <div className={gstyles.checkbox_container}>
         <input id="no_agreement_check" type="checkbox" {...register('noAgreement')}/>
