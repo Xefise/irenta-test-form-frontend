@@ -18,11 +18,17 @@ export const photoValidSchema = yup.mixed()
 export const ownershipBankDetailsSchema = yup.object().shape({
   bic: yup.number().required(requiredErMes).test(
     'lenght', 'БИК должен содержать 9 цифр',
-    (val) => !!(val && (val.toString().length == 9 || val.toString().length == 9))
+    (val) => !!(val && (val.toString().length == 9))
   ).typeError(requiredErMes),
   bankBranchName: yup.string().required(requiredErMes),
-  checkingAccount: yup.string().required(requiredErMes).min(20, minLenghtEr(20).message).max(20, maxLenghtEr(20)).typeError(requiredErMes),
-  correspondentAccount: yup.string().required(requiredErMes).min(20, minLenghtEr(20).message).max(20, maxLenghtEr(20)).typeError(requiredErMes),
+  checkingAccount: yup.string().required(requiredErMes).required(requiredErMes).test(
+    'lenght', 'Рассчетный счет должен содержать 20 цифр',
+    (val) => !!(val && (val.toString().length == 20))
+  ).typeError(requiredErMes),
+  correspondentAccount: yup.string().required(requiredErMes).test(
+    'lenght', 'Корреспондентский счет должен содержать 20 цифр',
+    (val) => !!(val && (val.toString().length == 20))
+  ).typeError(requiredErMes),
 })
 
 export const ownershipFormSchema = yup.object().shape({
