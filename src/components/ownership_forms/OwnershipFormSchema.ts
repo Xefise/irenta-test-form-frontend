@@ -24,11 +24,11 @@ export const ownershipBankDetailsSchema = yup.object().shape({
   checkingAccount: yup.string().required(requiredErMes).required(requiredErMes).test(
     'lenght', 'Рассчетный счет должен содержать 20 цифр',
     (val) => !!(val && (val.toString().length == 20))
-  ).typeError(requiredErMes),
+  ).matches(/^\d*$/, 'Должен иметь только цифры!').typeError(requiredErMes),
   correspondentAccount: yup.string().required(requiredErMes).test(
     'lenght', 'Корреспондентский счет должен содержать 20 цифр',
     (val) => !!(val && (val.toString().length == 20))
-  ).typeError(requiredErMes),
+  ).matches(/^\d*$/, 'Должен иметь только цифры!').typeError(requiredErMes),
 })
 
 export const ownershipFormSchema = yup.object().shape({
