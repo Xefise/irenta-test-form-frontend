@@ -34,10 +34,9 @@ function OwnershipMainForm({className = "", type, stepComplete}: OwnershipMainFo
       if(orgsRes.data?.suggestions?.length > 0 && orgsRes.data.suggestions[0].data)
         orgData = orgsRes.data.suggestions[0].data;
       else return;
-      if(inn.toString().length == 12){
-        setValue('name', orgData.name.full_with_opf);
-        setValue('shortName', orgData.name.short);
-      }
+
+      setValue('name', orgData.name.full_with_opf);
+      setValue('shortName', orgData.name.short);
       setValue('ogrnip', orgData.ogrn);
       setValue('registrationDate', new Date(orgData.state.registration_date));
     }
